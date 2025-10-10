@@ -1,7 +1,209 @@
 {
-  "lastUpdate": "2025-10-10T11:00:00.000Z",
+  "lastUpdate": "2025-10-10T13:30:00.000Z",
   "recommendations": {
-    "buy": [],
-    "sell": []
+    "buy": [
+      {
+        "symbol": "AAPL",
+        "name": "Apple Inc.",
+        "score": 95,
+        "transactionValue": 12500000,
+        "sharesRatio": 1.2,
+        "executiveType": "CEO",
+        "insiderCount": 3,
+        "isCeoOrCfo": true
+      },
+      {
+        "symbol": "MSFT",
+        "name": "Microsoft Corporation",
+        "score": 88,
+        "transactionValue": 8700000,
+        "sharesRatio": 0.8,
+        "executiveType": "CFO",
+        "insiderCount": 2,
+        "isCeoOrCfo": true
+      },
+      {
+        "symbol": "GOOGL",
+        "name": "Alphabet Inc.",
+        "score": 82,
+        "transactionValue": 6200000,
+        "sharesRatio": 0.6,
+        "executiveType": "Director",
+        "insiderCount": 4,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "AMZN",
+        "name": "Amazon.com Inc.",
+        "score": 76,
+        "transactionValue": 4300000,
+        "sharesRatio": 0.4,
+        "executiveType": "10% Owner",
+        "insiderCount": 2,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "NVDA",
+        "name": "NVIDIA Corporation",
+        "score": 71,
+        "transactionValue": 3200000,
+        "sharesRatio": 0.3,
+        "executiveType": "Officer",
+        "insiderCount": 3,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "BRK.B",
+        "name": "Berkshire Hathaway Inc.",
+        "score": 68,
+        "transactionValue": 2800000,
+        "sharesRatio": 0.25,
+        "executiveType": "Director",
+        "insiderCount": 2,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "UNH",
+        "name": "UnitedHealth Group Inc.",
+        "score": 65,
+        "transactionValue": 2400000,
+        "sharesRatio": 0.22,
+        "executiveType": "10% Owner",
+        "insiderCount": 3,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "HD",
+        "name": "Home Depot Inc.",
+        "score": 62,
+        "transactionValue": 2100000,
+        "sharesRatio": 0.18,
+        "executiveType": "Officer",
+        "insiderCount": 2,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "PG",
+        "name": "Procter & Gamble Co.",
+        "score": 58,
+        "transactionValue": 1800000,
+        "sharesRatio": 0.15,
+        "executiveType": "Director",
+        "insiderCount": 2,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "WMT",
+        "name": "Walmart Inc.",
+        "score": 55,
+        "transactionValue": 1500000,
+        "sharesRatio": 0.12,
+        "executiveType": "Other",
+        "insiderCount": 1,
+        "isCeoOrCfo": false
+      }
+    ],
+    "sell": [
+      {
+        "symbol": "META",
+        "name": "Meta Platforms Inc.",
+        "score": 92,
+        "transactionValue": 15200000,
+        "sharesRatio": 1.5,
+        "executiveType": "CEO",
+        "insiderCount": 2,
+        "isCeoOrCfo": true
+      },
+      {
+        "symbol": "TSLA",
+        "name": "Tesla Inc.",
+        "score": 85,
+        "transactionValue": 9800000,
+        "sharesRatio": 0.9,
+        "executiveType": "CFO",
+        "insiderCount": 3,
+        "isCeoOrCfo": true
+      },
+      {
+        "symbol": "V",
+        "name": "Visa Inc.",
+        "score": 78,
+        "transactionValue": 5400000,
+        "sharesRatio": 0.5,
+        "executiveType": "Director",
+        "insiderCount": 2,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "JPM",
+        "name": "JPMorgan Chase & Co.",
+        "score": 72,
+        "transactionValue": 3800000,
+        "sharesRatio": 0.4,
+        "executiveType": "10% Owner",
+        "insiderCount": 4,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "JNJ",
+        "name": "Johnson & Johnson",
+        "score": 68,
+        "transactionValue": 2900000,
+        "sharesRatio": 0.3,
+        "executiveType": "Officer",
+        "insiderCount": 2,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "NFLX",
+        "name": "Netflix Inc.",
+        "score": 64,
+        "transactionValue": 2600000,
+        "sharesRatio": 0.28,
+        "executiveType": "Director",
+        "insiderCount": 3,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "ADBE",
+        "name": "Adobe Inc.",
+        "score": 61,
+        "transactionValue": 2300000,
+        "sharesRatio": 0.24,
+        "executiveType": "CFO",
+        "insiderCount": 2,
+        "isCeoOrCfo": true
+      },
+      {
+        "symbol": "CRM",
+        "name": "Salesforce Inc.",
+        "score": 57,
+        "transactionValue": 2000000,
+        "sharesRatio": 0.20,
+        "executiveType": "10% Owner",
+        "insiderCount": 2,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "PFE",
+        "name": "Pfizer Inc.",
+        "score": 54,
+        "transactionValue": 1700000,
+        "sharesRatio": 0.16,
+        "executiveType": "Officer",
+        "insiderCount": 3,
+        "isCeoOrCfo": false
+      },
+      {
+        "symbol": "KO",
+        "name": "Coca-Cola Company",
+        "score": 51,
+        "transactionValue": 1400000,
+        "sharesRatio": 0.13,
+        "executiveType": "Director",
+        "insiderCount": 2,
+        "isCeoOrCfo": false
+      }
+    ]
   }
 }
