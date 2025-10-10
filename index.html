@@ -474,31 +474,6 @@
             color: #764ba2;
         }
 
-        .stock-info-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            background: #f8f9fa;
-            border-radius: 6px;
-            margin-top: 8px;
-        }
-
-        .stock-info-content.expanded {
-            max-height: 200px;
-            padding: 12px;
-        }
-
-        .stock-info-text {
-            font-size: 12px;
-            line-height: 1.4;
-            color: #495057;
-        }
-
-        .loading-info {
-            color: #6c757d;
-            font-style: italic;
-            font-size: 11px;
-        }
 
         .recommendation-item:last-child {
             border-bottom: none;
@@ -1433,18 +1408,13 @@
                                 👥 ${item.insiderCount}명
                                 ${item.isCeoOrCfo ? '<span class="inline-badge">CEO/CFO</span>' : ''}
                             </div>
+                            <button class="stock-info-btn" onclick="event.stopPropagation(); openGoogleSearch('${item.symbol}')">
+                                종목 자세히>
+                            </button>
                         </div>
                         <div class="score-badges">
                             <div class="score-badge" style="background-color: ${getScoreColor(item.score)}">
                                 ${item.score}점
-                            </div>
-                        </div>
-                        <button class="stock-info-btn" onclick="event.stopPropagation(); toggleStockInfo('${item.symbol}', ${index})">
-                            종목 자세히>
-                        </button>
-                        <div class="stock-info-content" id="stock-info-${item.symbol}-${index}">
-                            <div class="stock-info-text" id="stock-info-text-${item.symbol}-${index}">
-                                <!-- Stock info will be loaded here -->
                             </div>
                         </div>
                     </div>
@@ -1542,103 +1512,13 @@
             addLog(`${symbol} OpenInsider 페이지로 이동합니다.`, 'info');
         }
 
-        // Stock info accordion functions
-        async function toggleStockInfo(symbol, index) {
-            const contentElement = document.getElementById(`stock-info-${symbol}-${index}`);
-            const textElement = document.getElementById(`stock-info-text-${symbol}-${index}`);
-
-            if (contentElement.classList.contains('expanded')) {
-                // Collapse
-                contentElement.classList.remove('expanded');
-                return;
-            }
-
-            // Expand and load info if not already loaded
-            contentElement.classList.add('expanded');
-
-            if (!textElement.innerHTML.trim() || textElement.innerHTML.includes('loading-info')) {
-                textElement.innerHTML = '<div class="loading-info">종목 정보를 검색하고 있습니다...</div>';
-
-                try {
-                    const stockInfo = await fetchStockInfo(symbol);
-                    textElement.innerHTML = `<div class="stock-info-text">${stockInfo}</div>`;
-                } catch (error) {
-                    textElement.innerHTML = '<div class="loading-info">종목 정보를 불러올 수 없습니다.</div>';
-                }
-            }
+        // Google search function
+        function openGoogleSearch(symbol) {
+            const searchUrl = `https://www.google.com/search?q=${symbol}`;
+            window.open(searchUrl, '_blank');
+            addLog(`${symbol} 구글 검색을 새 탭에서 열었습니다.`, 'info');
         }
 
-        async function fetchStockInfo(symbol) {
-            try {
-                // Wikipedia API를 사용하여 종목 정보 검색
-                const searchUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${symbol}`;
-                const response = await fetch(searchUrl);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.extract) {
-                        return data.extract.substring(0, 300) + '...';
-                    }
-                }
-
-                // Wikipedia에서 실패하면 대체 검색
-                const altSearchUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${getCompanyName(symbol)}`;
-                const altResponse = await fetch(altSearchUrl);
-
-                if (altResponse.ok) {
-                    const altData = await altResponse.json();
-                    if (altData.extract) {
-                        return altData.extract.substring(0, 300) + '...';
-                    }
-                }
-
-                // 마지막 대안: 기본 정보 제공
-                return getBasicStockInfo(symbol);
-
-            } catch (error) {
-                console.error(`Error fetching stock info for ${symbol}:`, error);
-                return getBasicStockInfo(symbol);
-            }
-        }
-
-        function getCompanyName(symbol) {
-            const companies = {
-                'AAPL': 'Apple Inc.',
-                'MSFT': 'Microsoft Corporation',
-                'GOOGL': 'Alphabet Inc.',
-                'AMZN': 'Amazon.com',
-                'TSLA': 'Tesla, Inc.',
-                'META': 'Meta Platforms',
-                'NVDA': 'NVIDIA Corporation',
-                'BRK.B': 'Berkshire Hathaway',
-                'UNH': 'UnitedHealth Group',
-                'HD': 'The Home Depot',
-                'PG': 'Procter & Gamble',
-                'WMT': 'Walmart',
-                'V': 'Visa Inc.',
-                'JPM': 'JPMorgan Chase',
-                'JNJ': 'Johnson & Johnson',
-                'NFLX': 'Netflix',
-                'ADBE': 'Adobe Inc.',
-                'CRM': 'Salesforce',
-                'PFE': 'Pfizer',
-                'KO': 'The Coca-Cola Company'
-            };
-            return companies[symbol] || symbol;
-        }
-
-        function getBasicStockInfo(symbol) {
-            const basicInfo = {
-                'AAPL': 'Apple Inc.는 미국의 다국적 기술 기업으로 아이폰, 맥, 아이패드 등의 소비자 전자제품을 설계, 개발 및 판매합니다. 쿠퍼티노에 본사를 두고 있으며 세계에서 가장 가치 있는 기업 중 하나입니다.',
-                'MSFT': 'Microsoft Corporation은 미국의 다국적 기술 기업으로 Windows 운영체제, Office 소프트웨어 제품군, Azure 클라우드 서비스를 개발합니다. 워싱턴주 레드몬드에 본사를 두고 있습니다.',
-                'GOOGL': 'Alphabet Inc.는 구글의 모회사로, 인터넷 검색, 클라우드 컴퓨팅, 광고 기술을 전문으로 하는 미국의 다국적 기술 대기업입니다. 캘리포니아주 마운틴뷰에 본사를 두고 있습니다.',
-                'AMZN': 'Amazon.com Inc.는 전자상거래, 클라우드 컴퓨팅, 디지털 스트리밍, 인공지능에 중점을 둔 미국의 다국적 기술 기업입니다. 워싱턴주 시애틀에 본사를 두고 있습니다.',
-                'TSLA': 'Tesla Inc.는 전기 자동차, 에너지 저장 시스템, 태양광 패널을 제조하는 미국의 전기 자동차 및 청정 에너지 회사입니다. 텍사스주 오스틴에 본사를 두고 있습니다.',
-                'META': 'Meta Platforms Inc.(구 Facebook)는 소셜 미디어, 메타버스 기술을 개발하는 미국의 다국적 기술 대기업입니다. 페이스북, 인스타그램, 왓츠앱을 운영합니다.'
-            };
-
-            return basicInfo[symbol] || `${symbol}는 주식 시장에 상장된 기업입니다. 더 자세한 정보는 해당 기업의 공식 웹사이트나 금융 정보 사이트에서 확인하실 수 있습니다.`;
-        }
 
         // Favorite management functions
         function toggleFavorite(symbol) {
