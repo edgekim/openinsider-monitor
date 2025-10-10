@@ -113,6 +113,34 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            position: relative;
+        }
+
+        .stock-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .remove-favorite {
+            background: #ffc107;
+            color: #856404;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .remove-favorite:hover {
+            background: #e0a800;
+            transform: scale(1.1);
         }
 
         .stock-card:hover {
@@ -342,6 +370,109 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .recommendation-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .favorite-btn {
+            background: #ffc107;
+            color: #856404;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .favorite-btn:hover {
+            background: #e0a800;
+        }
+
+        .favorite-btn.favorited {
+            background: #28a745;
+            color: white;
+        }
+
+        .favorite-btn.favorited:hover {
+            background: #218838;
+        }
+
+        /* Alert Settings */
+        .alert-settings {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .setting-label {
+            font-size: 12px;
+            color: #6c757d;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .setting-control {
+            padding: 8px 12px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .setting-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .inline-badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 5px;
         }
 
         .recommendation-item:last-child {
@@ -603,7 +734,40 @@
             </div>
             <div class="info-item">
                 <div class="info-label">알림 기준</div>
-                <div class="info-value">3개월 내 BUY/SELL 3건 이상</div>
+                <div class="info-value" id="alert-criteria-display">3개월 내 BUY/SELL 3건 이상</div>
+            </div>
+        </div>
+
+        <!-- Alert Settings -->
+        <div class="alert-settings">
+            <div class="info-label" style="margin-bottom: 15px;">알림 설정 사용자 정의</div>
+            <div class="settings-row">
+                <div class="setting-group">
+                    <div class="setting-label">기간</div>
+                    <select class="setting-control" id="period-select" onchange="updateAlertCriteria()">
+                        <option value="1">1개월</option>
+                        <option value="3" selected>3개월</option>
+                        <option value="6">6개월</option>
+                        <option value="12">12개월</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <div class="setting-label">거래 유형</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="buy-checkbox" checked onchange="updateAlertCriteria()">
+                            <label for="buy-checkbox">BUY</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sell-checkbox" checked onchange="updateAlertCriteria()">
+                            <label for="sell-checkbox">SELL</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <div class="setting-label">최소 건수</div>
+                    <input type="number" class="setting-control" id="threshold-input" value="3" min="1" max="10" onchange="updateAlertCriteria()" style="width: 80px;">
+                </div>
             </div>
         </div>
 
@@ -619,19 +783,7 @@
             <button class="btn btn-secondary" onclick="requestNotificationPermission()">알림 권한 요청</button>
         </div>
 
-        <!-- Data Path Info -->
-        <div class="data-path">
-            <h3>🗂 데이터 저장 위치</h3>
-            <code>C:\Users\[사용자명]\AppData\Local\Comet\User Data\Default\Local Storage</code>
-        </div>
 
-        <!-- Activity Log -->
-        <div class="activity-log">
-            <div class="log-header">📋 활동 로그</div>
-            <div class="log-content" id="activity-log">
-                <!-- Log items will be generated here -->
-            </div>
-        </div>
 
         <!-- AI Recommendations -->
         <div class="ai-section">
@@ -671,6 +823,14 @@
             <button class="btn btn-primary refresh-btn" onclick="fetchRecommendations()">
                 🔄 추천 종목 새로고침
             </button>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="activity-log" style="margin-top: 40px;">
+            <div class="log-header">📋 활동 로그</div>
+            <div class="log-content" id="activity-log">
+                <!-- Log items will be generated here -->
+            </div>
         </div>
     </div>
 
@@ -757,7 +917,14 @@
             checkHour: 9,
             alertThreshold: 3,
             maxLogs: 50,
-            monitoredStocks: ['TSLA', 'PLTR', 'RGTI', 'IONQ', 'MSTR', 'LLY']
+            maxFavorites: 32,
+            defaultStocks: ['TSLA', 'PLTR', 'RGTI', 'IONQ', 'MSTR', 'LLY'],
+            alertSettings: {
+                period: 3,
+                buyEnabled: true,
+                sellEnabled: true,
+                threshold: 3
+            }
         };
 
         // S&P 500 sample stocks for AI recommendations
@@ -882,7 +1049,9 @@
             }
             return {
                 lastCheck: null,
-                stocks: CONFIG.monitoredStocks.reduce((acc, symbol) => {
+                favoriteStocks: CONFIG.defaultStocks.slice(),
+                alertSettings: { ...CONFIG.alertSettings },
+                stocks: CONFIG.defaultStocks.reduce((acc, symbol) => {
                     acc[symbol] = { buyCount: 0, sellCount: 0, lastCheck: null };
                     return acc;
                 }, {})
@@ -898,13 +1067,16 @@
             const data = loadData();
             const grid = document.getElementById('stocks-grid');
 
-            grid.innerHTML = CONFIG.monitoredStocks.map(symbol => {
-                const stock = data.stocks[symbol];
+            grid.innerHTML = data.favoriteStocks.map(symbol => {
+                const stock = data.stocks[symbol] || { buyCount: 0, sellCount: 0, lastCheck: null };
                 const isAlert = stock.buyCount >= CONFIG.alertThreshold || stock.sellCount >= CONFIG.alertThreshold;
 
                 return `
-                    <div class="stock-card ${isAlert ? 'alert' : ''}">
-                        <div class="stock-symbol">${symbol}</div>
+                    <div class="stock-card ${isAlert ? 'alert' : ''}" onclick="openInsiderSearch('${symbol}')" title="클릭하여 ${symbol}의 OpenInsider 상세 정보 보기">
+                        <div class="stock-card-header">
+                            <div class="stock-symbol">${symbol}</div>
+                            <button class="remove-favorite" onclick="event.stopPropagation(); removeFavorite('${symbol}')" title="즐겨찾기 해제">★</button>
+                        </div>
                         <div class="stock-counts">
                             <div class="count-item">
                                 <div class="count-label">BUY</div>
@@ -949,18 +1121,32 @@
             renderStocks();
         }
 
-        // Simulation data fetcher
+        // Real data fetcher from JSON files
         async function fetchInsiderData(symbol) {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    resolve({
+            try {
+                const response = await fetch('./data/stocks.json?t=' + Date.now());
+                const data = await response.json();
+
+                if (data.stocks && data.stocks[symbol]) {
+                    return data.stocks[symbol];
+                } else {
+                    // Return default if symbol not found
+                    return {
                         symbol,
-                        buyCount: Math.floor(Math.random() * 6),
-                        sellCount: Math.floor(Math.random() * 6),
+                        buyCount: 0,
+                        sellCount: 0,
                         lastCheck: new Date().toISOString()
-                    });
-                }, 1000);
-            });
+                    };
+                }
+            } catch (error) {
+                console.error(`Error fetching data for ${symbol}:`, error);
+                return {
+                    symbol,
+                    buyCount: 0,
+                    sellCount: 0,
+                    lastCheck: new Date().toISOString()
+                };
+            }
         }
 
         // Notification system
@@ -983,31 +1169,47 @@
         async function checkNow() {
             addLog('수동 체크를 시작합니다.', 'info');
 
-            const data = loadData();
+            try {
+                // Fetch latest data from JSON
+                const response = await fetch('./data/stocks.json?t=' + Date.now());
+                const stockData = await response.json();
 
-            for (const symbol of CONFIG.monitoredStocks) {
-                addLog(`${symbol} 데이터를 수집하고 있습니다...`, 'info');
+                const data = loadData();
 
-                try {
-                    const result = await fetchInsiderData(symbol);
-                    data.stocks[symbol] = result;
+                // Update data for all favorite stocks
+                for (const symbol of data.favoriteStocks) {
+                    if (stockData.stocks && stockData.stocks[symbol]) {
+                        const result = stockData.stocks[symbol];
+                        data.stocks[symbol] = result;
 
-                    addLog(`${symbol}: BUY ${result.buyCount}건, SELL ${result.sellCount}건`, 'success');
+                        addLog(`${symbol}: BUY ${result.buyCount}건, SELL ${result.sellCount}건`, 'success');
 
-                    if (result.buyCount >= CONFIG.alertThreshold || result.sellCount >= CONFIG.alertThreshold) {
-                        await sendNotification(symbol, result.buyCount, result.sellCount);
-                        addLog(`${symbol} 알림 조건 충족 - 알림 발송`, 'warning');
+                        // Check alert conditions
+                        const alertSettings = data.alertSettings;
+                        const shouldAlert = (
+                            (alertSettings.buyEnabled && result.buyCount >= alertSettings.threshold) ||
+                            (alertSettings.sellEnabled && result.sellCount >= alertSettings.threshold)
+                        );
+
+                        if (shouldAlert) {
+                            await sendNotification(symbol, result.buyCount, result.sellCount);
+                            addLog(`${symbol} 알림 조건 충족 - 알림 발송`, 'warning');
+                        }
+                    } else {
+                        addLog(`${symbol} 데이터를 찾을 수 없습니다.`, 'error');
                     }
-                } catch (error) {
-                    addLog(`${symbol} 데이터 수집 실패: ${error.message}`, 'error');
                 }
+
+                data.lastCheck = stockData.lastUpdate || new Date().toISOString();
+                saveData(data);
+                updateUI();
+
+                addLog('체크가 완료되었습니다.', 'success');
+
+            } catch (error) {
+                addLog(`데이터 수집 실패: ${error.message}`, 'error');
             }
 
-            data.lastCheck = new Date().toISOString();
-            saveData(data);
-            updateUI();
-
-            addLog('체크가 완료되었습니다.', 'success');
             scheduleCheck();
         }
 
@@ -1188,8 +1390,12 @@
             const sellContainer = document.getElementById('sell-recommendations');
 
             function renderList(items, container) {
-                container.innerHTML = items.map((item, index) => `
-                    <div class="recommendation-item">
+                container.innerHTML = items.map((item, index) => {
+                    const data = loadData();
+                    const isFavorited = data.favoriteStocks.includes(item.symbol);
+
+                    return `
+                    <div class="recommendation-item" onclick="openInsiderSearch('${item.symbol}')" title="클릭하여 ${item.symbol}의 OpenInsider 상세 정보 보기">
                         <div class="rank-badge">${index + 1}</div>
                         <div class="stock-info">
                             <div class="stock-name">${item.symbol}</div>
@@ -1204,10 +1410,10 @@
                             <div class="score-badge" style="background-color: ${getScoreColor(item.score)}">
                                 ${item.score}점
                             </div>
-                            ${item.isCeoOrCfo ? '<div class="executive-badge">CEO/CFO</div>' : ''}
                         </div>
                     </div>
-                `).join('');
+                    `;
+                }).join('');
             }
 
             renderList(recommendations.buy, buyContainer);
@@ -1221,20 +1427,29 @@
             buyContainer.innerHTML = '<div class="loading"><div class="spinner"></div>데이터 로딩 중...</div>';
             sellContainer.innerHTML = '<div class="loading"><div class="spinner"></div>데이터 로딩 중...</div>';
 
-            addLog('AI 추천 종목을 생성하고 있습니다...', 'info');
+            addLog('AI 추천 종목을 로딩하고 있습니다...', 'info');
 
             try {
-                // Simulate API delay
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                // Fetch real recommendations data
+                const response = await fetch('./data/recommendations.json?t=' + Date.now());
+                const data = await response.json();
 
+                if (data.recommendations) {
+                    renderRecommendations(data.recommendations);
+                    addLog(`추천 종목이 업데이트되었습니다. BUY: ${data.recommendations.buy.length}개, SELL: ${data.recommendations.sell.length}개`, 'success');
+                } else {
+                    // Fallback to simulated data if no real data available
+                    const recommendations = generateRecommendations();
+                    renderRecommendations(recommendations);
+                    addLog('시뮬레이션 데이터로 추천 종목을 표시합니다.', 'info');
+                }
+
+            } catch (error) {
+                console.error('Error fetching recommendations:', error);
+                // Fallback to simulated data
                 const recommendations = generateRecommendations();
                 renderRecommendations(recommendations);
-
-                addLog(`추천 종목이 업데이트되었습니다. BUY: ${recommendations.buy.length}개, SELL: ${recommendations.sell.length}개`, 'success');
-            } catch (error) {
-                buyContainer.innerHTML = '<div class="log-item log-error">데이터 로딩 실패</div>';
-                sellContainer.innerHTML = '<div class="log-item log-error">데이터 로딩 실패</div>';
-                addLog(`추천 종목 생성 실패: ${error.message}`, 'error');
+                addLog('실제 데이터를 불러올 수 없어 시뮬레이션 데이터를 사용합니다.', 'warning');
             }
         }
 
@@ -1266,6 +1481,7 @@
 
             updateUI();
             scheduleCheck();
+            initializeAlertSettings();
 
             // Request notification permission after 2 seconds
             setTimeout(() => {
@@ -1280,6 +1496,101 @@
             }, 2000);
 
             addLog('모니터링 시스템이 시작되었습니다.', 'success');
+        }
+
+        // OpenInsider search function
+        function openInsiderSearch(symbol) {
+            const url = `http://openinsider.com/search?q=${symbol}`;
+            window.open(url, '_blank');
+            addLog(`${symbol} OpenInsider 페이지로 이동합니다.`, 'info');
+        }
+
+        // Favorite management functions
+        function toggleFavorite(symbol) {
+            const data = loadData();
+            const isFavorited = data.favoriteStocks.includes(symbol);
+
+            if (isFavorited) {
+                // Remove from favorites
+                if (confirm(`${symbol}을 즐겨찾기에서 제거하시겠습니까?`)) {
+                    data.favoriteStocks = data.favoriteStocks.filter(s => s !== symbol);
+                    if (data.stocks[symbol]) {
+                        delete data.stocks[symbol];
+                    }
+                    saveData(data);
+                    updateUI();
+                    addLog(`${symbol}이 즐겨찾기에서 제거되었습니다.`, 'info');
+                }
+            } else {
+                // Add to favorites
+                if (data.favoriteStocks.length >= CONFIG.maxFavorites) {
+                    alert(`즐겨찾기는 최대 ${CONFIG.maxFavorites}개까지만 등록할 수 있습니다.`);
+                    return;
+                }
+
+                data.favoriteStocks.push(symbol);
+                data.stocks[symbol] = { buyCount: 0, sellCount: 0, lastCheck: null };
+                saveData(data);
+                updateUI();
+                addLog(`${symbol}이 즐겨찾기에 추가되었습니다.`, 'success');
+            }
+        }
+
+        function removeFavorite(symbol) {
+            if (confirm(`${symbol}을 즐겨찾기에서 제거하시겠습니까?`)) {
+                const data = loadData();
+                data.favoriteStocks = data.favoriteStocks.filter(s => s !== symbol);
+                if (data.stocks[symbol]) {
+                    delete data.stocks[symbol];
+                }
+                saveData(data);
+                updateUI();
+                addLog(`${symbol}이 즐겨찾기에서 제거되었습니다.`, 'info');
+            }
+        }
+
+        // Alert settings functions
+        function updateAlertCriteria() {
+            const data = loadData();
+            const period = document.getElementById('period-select').value;
+            const buyEnabled = document.getElementById('buy-checkbox').checked;
+            const sellEnabled = document.getElementById('sell-checkbox').checked;
+            const threshold = document.getElementById('threshold-input').value;
+
+            data.alertSettings = {
+                period: parseInt(period),
+                buyEnabled,
+                sellEnabled,
+                threshold: parseInt(threshold)
+            };
+
+            saveData(data);
+            updateAlertDisplay();
+            addLog('알림 설정이 업데이트되었습니다.', 'info');
+        }
+
+        function updateAlertDisplay() {
+            const data = loadData();
+            const settings = data.alertSettings;
+            const types = [];
+
+            if (settings.buyEnabled) types.push('BUY');
+            if (settings.sellEnabled) types.push('SELL');
+
+            const display = `${settings.period}개월 내 ${types.join('/')} ${settings.threshold}건 이상`;
+            document.getElementById('alert-criteria-display').textContent = display;
+        }
+
+        function initializeAlertSettings() {
+            const data = loadData();
+            const settings = data.alertSettings;
+
+            document.getElementById('period-select').value = settings.period;
+            document.getElementById('buy-checkbox').checked = settings.buyEnabled;
+            document.getElementById('sell-checkbox').checked = settings.sellEnabled;
+            document.getElementById('threshold-input').value = settings.threshold;
+
+            updateAlertDisplay();
         }
 
         // Start the application when page loads
