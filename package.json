@@ -1,0 +1,28 @@
+{
+  "name": "openinsider-monitor",
+  "version": "1.0.0",
+  "description": "OpenInsider 실시간 내부자 거래 모니터링 시스템",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build process needed for static files'",
+    "deploy": "echo 'Ready for deployment to static hosting services'"
+  },
+  "keywords": [
+    "openinsider",
+    "stock-monitoring",
+    "insider-trading",
+    "ai-recommendations",
+    "javascript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/openinsider-monitor.git"
+  },
+  "homepage": "https://yourusername.github.io/openinsider-monitor"
+}
