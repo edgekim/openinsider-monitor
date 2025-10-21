@@ -19,13 +19,18 @@ jobs:
       with:
         python-version: '3.11'
 
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@latest
+      with:
+        chrome-version: stable
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests beautifulsoup4 lxml pandas
+        pip install requests beautifulsoup4 lxml pandas selenium webdriver-manager
 
     - name: Fetch insider trading data
-      run: python scripts/fetch_data.py
+      run: python scripts/fetch_data_selenium.py
 
     - name: Commit and push changes
       run: |

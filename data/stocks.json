@@ -1,41 +1,41 @@
 {
-  "lastUpdate": "2025-10-10T11:00:00.000Z",
+  "lastUpdate": "2025-10-21T08:27:00.284354",
   "stocks": {
     "TSLA": {
       "symbol": "TSLA",
-      "buyCount": 0,
-      "sellCount": 0,
-      "lastCheck": "2025-10-10T11:00:00.000Z"
+      "buyCount": 3,
+      "sellCount": 3,
+      "lastCheck": "2025-10-21T08:26:42.280854"
     },
     "PLTR": {
       "symbol": "PLTR",
-      "buyCount": 0,
-      "sellCount": 0,
-      "lastCheck": "2025-10-10T11:00:00.000Z"
+      "buyCount": 4,
+      "sellCount": 4,
+      "lastCheck": "2025-10-21T08:26:45.281874"
     },
     "RGTI": {
       "symbol": "RGTI",
       "buyCount": 0,
-      "sellCount": 0,
-      "lastCheck": "2025-10-10T11:00:00.000Z"
+      "sellCount": 1,
+      "lastCheck": "2025-10-21T08:26:48.282600"
     },
     "IONQ": {
       "symbol": "IONQ",
       "buyCount": 0,
       "sellCount": 0,
-      "lastCheck": "2025-10-10T11:00:00.000Z"
+      "lastCheck": "2025-10-21T08:26:51.283250"
     },
     "MSTR": {
       "symbol": "MSTR",
-      "buyCount": 0,
-      "sellCount": 0,
-      "lastCheck": "2025-10-10T11:00:00.000Z"
+      "buyCount": 4,
+      "sellCount": 1,
+      "lastCheck": "2025-10-21T08:26:54.283670"
     },
     "LLY": {
       "symbol": "LLY",
-      "buyCount": 0,
-      "sellCount": 0,
-      "lastCheck": "2025-10-10T11:00:00.000Z"
+      "buyCount": 1,
+      "sellCount": 5,
+      "lastCheck": "2025-10-21T08:26:57.283860"
     }
   }
 }
