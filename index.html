@@ -1064,7 +1064,26 @@
 
             grid.innerHTML = data.favoriteStocks.map(symbol => {
                 const stock = data.stocks[symbol] || { buyCount: 0, sellCount: 0, lastCheck: null };
-                const isAlert = stock.buyCount >= CONFIG.alertThreshold || stock.sellCount >= CONFIG.alertThreshold;
+
+                // Check recommendations data for more accurate counts
+                let buyCount = stock.buyCount;
+                let sellCount = stock.sellCount;
+
+                if (currentRecommendations) {
+                    // Check if this symbol is in buy recommendations
+                    const buyRec = currentRecommendations.buy.find(r => r.symbol === symbol);
+                    if (buyRec) {
+                        buyCount = buyRec.insiderCount || 1;
+                    }
+
+                    // Check if this symbol is in sell recommendations
+                    const sellRec = currentRecommendations.sell.find(r => r.symbol === symbol);
+                    if (sellRec) {
+                        sellCount = sellRec.insiderCount || 1;
+                    }
+                }
+
+                const isAlert = buyCount >= CONFIG.alertThreshold || sellCount >= CONFIG.alertThreshold;
 
                 return `
                     <div class="stock-card ${isAlert ? 'alert' : ''}" onclick="openInsiderSearch('${symbol}')" title="클릭하여 ${symbol}의 OpenInsider 상세 정보 보기">
@@ -1075,11 +1094,11 @@
                         <div class="stock-counts">
                             <div class="count-item">
                                 <div class="count-label">BUY</div>
-                                <div class="count-value buy-count">${stock.buyCount}</div>
+                                <div class="count-value buy-count">${buyCount}</div>
                             </div>
                             <div class="count-item">
                                 <div class="count-label">SELL</div>
-                                <div class="count-value sell-count">${stock.sellCount}</div>
+                                <div class="count-value sell-count">${sellCount}</div>
                             </div>
                         </div>
                         <div class="last-check">
@@ -1458,6 +1477,9 @@
                 renderRecommendations(currentRecommendations);
                 addLog('실제 데이터를 불러올 수 없어 시뮬레이션 데이터를 사용합니다.', 'warning');
             }
+
+            // Re-render favorite stocks with updated recommendation data
+            renderStocks();
         }
 
         // Modal functions
