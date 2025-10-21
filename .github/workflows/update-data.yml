@@ -25,6 +25,8 @@ jobs:
         pip install requests beautifulsoup4 lxml pandas
 
     - name: Fetch insider trading data
+      env:
+        FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
       run: python scripts/fetch_data.py
 
     - name: Commit and push changes
